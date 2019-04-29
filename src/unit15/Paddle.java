@@ -70,3 +70,4 @@ public class Paddle extends Block {
         return "" + getxPos() + " " + getyPos() + " " + getWidth() + " " + getHeight() + " " + getColor() + " " + getSpeed();
     }
 }
+
