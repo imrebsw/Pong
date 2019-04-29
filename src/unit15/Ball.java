@@ -6,91 +6,104 @@ package unit15;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Ball extends Block implements Collidable {
+public class Ball extends Block {
 
-    private int xSpeed;
-    private int ySpeed;
+    private int XSpeed;
+    private int YSpeed;
 
     public Ball() {
         super(200, 200);
-        xSpeed = 3;
-        ySpeed = 1; //need to add speeds bc these are "still" blocks
+        XSpeed = 3;
+        YSpeed = 1;
     }
 
     public Ball(int x, int y) {
         super(x, y);
-        xSpeed = 3;
-        ySpeed = 1;
+        XSpeed = 3;
+        YSpeed = 1;
     }
 
-    public Ball(int x, int y, int w, int h) {
-        super(x, y, w, h);
-        xSpeed = 3;
-        ySpeed = 1;
+    public Ball(int x, int y,int xs,int ys) {
+        super(x, y);
+        XSpeed = xs;
+        YSpeed = ys;
+    }
+    
+    public Ball(int x, int y,int w, int h,Color c,int xs,int ys) {
+        super(x, y,w,h,c);
+        XSpeed = xs;
+        YSpeed = ys;
     }
 
-    public Ball(int x, int y, int w, int h, Color c) {
-        super(x, y, w, h, c);
-        xSpeed = 3;
-        ySpeed = 1;
+        public Ball(int x, int y,int w, int h,Color c) {
+        super(x,y,w,h,c);
+        XSpeed = 3;
+        YSpeed = 1;
     }
-
-    //moving block bc it has speed
-    public Ball(int x, int y, int w, int h, Color c, int xSp, int ySp) {
-        super(x, y, w, h, c);
-        xSpeed = xSp;
-        ySpeed = ySp;
-    }
-	//add the other Ball constructors
+    //add the other Ball constructors
     //add the set methods
-
     public void moveAndDraw(Graphics window) {
         //draw a white ball at old ball location
-        draw(window, Color.white);
-        setxPos(getxPos() + getxSpeed());
-        setyPos(getyPos() + getySpeed());
-		//setY
-
+        window.setColor(Color.white);
+        window.fillRect(super.getxPos(),super.getyPos(),super.getWidth(),super.getHeight());
+        setxPos(getxPos() + getXSpeed());
+        setyPos(getyPos() + getYSpeed());
+        //draw(window,getColor());
+        window.setColor(super.getColor());
+        window.fillRect(super.getxPos(),super.getyPos(),super.getWidth(),super.getHeight());
         //draw the ball at its new location
-         //setColor(Color.black);
-        draw(window);
     }
 
-    public boolean equals(Object obj) {
+ 
+    public boolean Equals(Object obj) {
+        Ball temp = (Ball) obj;
+        return super.equals(obj)&&XSpeed==temp.getXSpeed()&&YSpeed==temp.getYSpeed();
+        //return false;
+//return this.getxPos() == temp.getxPos() && this.getyPos() == temp.getyPos() && this.getWidth() == temp.getWidth() && this.getHeight() == temp.getHeight();
 
-        Ball test = (Ball)obj;
-        return super.equals(obj) && this.getxSpeed() == test.getxSpeed() && this.getySpeed() == test.getySpeed();
-        
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
     }
 
    //add the get methods
     //add a toString() method
-
-    /**
-     * @return the xSpeed
-     */
-    public int getxSpeed() {
-        return xSpeed;
+    public int getXSpeed() {
+        return XSpeed;
     }
 
-    /**
-     * @param xSpeed the xSpeed to set
-     */
-    public void setxSpeed(int xSpeed) {
-        this.xSpeed = xSpeed;
+    public void setXSpeed(int xSpeed) {
+        this.XSpeed = xSpeed;
     }
 
-    /**
-     * @return the ySpeed
-     */
-    public int getySpeed() {
-        return ySpeed;
+    public int getYSpeed() {
+        return YSpeed;
     }
 
-    /**
-     * @param ySpeed the ySpeed to set
-     */
-    public void setySpeed(int ySpeed) {
-        this.ySpeed = ySpeed;
+    public void setYSpeed(int ySpeed) {
+        this.YSpeed = ySpeed;
+    }
+    
+    public boolean collidesLeft(Paddle paddle){
+        if(this.getyPos()>paddle.getyPos()-this.getHeight()&&this.getyPos()<paddle.getyPos()+paddle.getHeight()){//check y
+            if(this.getXSpeed()<0&&this.getxPos()<paddle.getxPos()+paddle.getWidth()&&this.getxPos()>paddle.getxPos()){
+                return true;}}
+        return false;
+    }
+    
+        public boolean collidesRight(Paddle paddle){
+        if(this.getyPos()>paddle.getyPos()-this.getHeight()&&this.getyPos()<paddle.getyPos()+paddle.getHeight()){//check y
+            if(this.getXSpeed()>0&&this.getxPos()+this.getWidth()+1>paddle.getxPos()-paddle.getWidth()&&this.getxPos()+this.getWidth()>paddle.getxPos()+paddle.getWidth())
+                return true;
+        }
+        return false;
+    }
+    
+    @Override
+    public String toString() {
+        return "" + getxPos() + " " + getyPos() + " " + getWidth() + " " + getHeight() + " " + getColor() + " " + getXSpeed()+ " " + getYSpeed();
     }
 }
